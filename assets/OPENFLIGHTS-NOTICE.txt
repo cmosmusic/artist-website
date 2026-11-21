@@ -1,0 +1,21 @@
+OpenFlights-derived airport and route data
+
+Source: OpenFlights Airport and Route databases
+https://openflights.org/data.php
+
+The route records are historical (as of June 2014); the airport records are
+from the January 2017 dataset. The map shows selected major airports and
+deduplicated direct international connections. It is not a current timetable
+and is not suitable for navigation.
+
+The subset in flight-routes.json, the derived map in flight-routes.svg, and
+the airport-coordinate annotations in index.html are made available under
+the Open Database License (ODbL) 1.0:
+https://opendatacommons.org/licenses/odbl/1-0/
+
+Individual database contents are licensed under the Database Contents License
+(DbCL) 1.0:
+https://opendatacommons.org/licenses/dbcl/1.0/
+
+These notices apply to the OpenFlights-derived data and map, not to the
+website's unrelated code, text, or other assets.

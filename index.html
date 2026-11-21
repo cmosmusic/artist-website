@@ -4,8 +4,273 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
+    <style>
+        @font-face {
+            font-family: "Betatron";
+            src: url("assets/fonts/Betatron-Regular.woff2") format("woff2");
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Violet Sans";
+            src: url("assets/fonts/VioletSans-Regular.woff2") format("woff2");
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        body {
+            margin: 0;
+            background: rgb(183, 183, 183);
+        }
+
+        .flight-map {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .map-annotations {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .map-annotation {
+            position: absolute;
+            left: var(--map-x);
+            top: var(--map-y);
+            width: 0;
+            height: 0;
+        }
+
+        .annotation-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: #fc0fc0;
+            box-shadow: 0 0 0 1px #fc0fc0;
+            transform: translate(-50%, -50%);
+        }
+
+        .annotation-label {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 5px 7px;
+            border-left: 2px solid #fc0fc0;
+            background: rgba(183, 183, 183, 0.92);
+            color: #000;
+            font-family: "Violet Sans", sans-serif;
+            font-size: clamp(10px, 1.05vw, 16px);
+            line-height: 1;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .annotation-code {
+            color: #fc0fc0;
+        }
+
+        .annotation-frankfurt .annotation-label {
+            top: 12px;
+            right: 12px;
+            align-items: flex-end;
+        }
+
+        .annotation-berlin .annotation-label {
+            right: auto;
+            bottom: 14px;
+            left: 12px;
+        }
+
+        .annotation-detroit .annotation-label {
+            right: 12px;
+            bottom: 12px;
+            align-items: flex-end;
+        }
+
+        .annotation-salvador .annotation-label {
+            top: 12px;
+            right: auto;
+            left: 12px;
+        }
+
+        .banner {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .banner-art {
+            width: 100%;
+            height: 100%;
+            font-family: "Betatron", sans-serif;
+            font-size: clamp(120px, 22vw, 360px);
+        }
+
+        .headline-line {
+            fill: #000;
+        }
+
+        .headline-mask-line {
+            fill: #fff;
+        }
+
+        .scroll-track {
+            height: 200vh;
+        }
+
+        .scroll-copy {
+            font-family: "Violet Sans", sans-serif;
+            font-size: clamp(1.25rem, 6vw, 6rem);
+            fill: #6f2da8;
+        }
+
+        .scroll-copy-white {
+            fill: #fff;
+            mask: url("#headline-mask");
+        }
+
+        .map-credit {
+            position: fixed;
+            right: 12px;
+            bottom: 10px;
+            z-index: 1;
+            color: #333;
+            font: 10px Arial, sans-serif;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+    <img class="flight-map" src="assets/flight-routes.svg" alt="" aria-hidden="true">
+    <div class="map-annotations" role="list" aria-label="Highlighted cities and area codes">
+        <div class="map-annotation annotation-frankfurt" role="listitem" aria-label="Frankfurt area code 069" style="--map-x: 52.3807%; --map-y: 22.2037%;">
+            <span class="annotation-marker" aria-hidden="true"></span>
+            <span class="annotation-label"><span class="annotation-code">069</span></span>
+        </div>
+        <div class="map-annotation annotation-berlin" role="listitem" aria-label="Berlin area code 030" style="--map-x: 53.6910%; --map-y: 20.8002%;">
+            <span class="annotation-marker" aria-hidden="true"></span>
+            <span class="annotation-label"><span class="annotation-code">030</span></span>
+        </div>
+        <div class="map-annotation annotation-detroit" role="listitem" aria-label="Detroit area code 313" style="--map-x: 26.8463%; --map-y: 26.5487%;">
+            <span class="annotation-marker" aria-hidden="true"></span>
+            <span class="annotation-label"><span class="annotation-code">313</span></span>
+        </div>
+        <div class="map-annotation annotation-salvador" role="listitem" aria-label="Salvador da Bahia area code 071" style="--map-x: 39.3549%; --map-y: 57.1715%;">
+            <span class="annotation-marker" aria-hidden="true"></span>
+            <span class="annotation-label"><span class="annotation-code">071</span></span>
+        </div>
+    </div>
+    <header class="banner">
+        <svg class="banner-art" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="C.M.O.S.">
+            <defs>
+                <mask id="headline-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1" height="1">
+                    <text class="headline-mask-line" text-anchor="middle" dominant-baseline="central">C.M.</text>
+                    <text class="headline-mask-line" text-anchor="middle" dominant-baseline="central">O.S.</text>
+                </mask>
+            </defs>
+            <text id="headline-line-1" class="headline-line" text-anchor="middle" dominant-baseline="central">C.M.</text>
+            <text id="headline-line-2" class="headline-line" text-anchor="middle" dominant-baseline="central">O.S.</text>
+            <text class="scroll-copy" text-anchor="middle" dominant-baseline="central">YOUR STORY STARTS HERE</text>
+            <text class="scroll-copy scroll-copy-white" text-anchor="middle" dominant-baseline="central">YOUR STORY STARTS HERE</text>
+        </svg>
+    </header>
+    <a class="map-credit" href="https://openflights.org/data.php">Flight data: OpenFlights (June 2014)</a>
+    <div class="scroll-track" aria-hidden="true"></div>
+    <script>
+        const bannerArt = document.querySelector(".banner-art");
+        const headlineMask = document.querySelector("#headline-mask");
+        const headlineLines = [...bannerArt.querySelectorAll(".headline-line")];
+        const maskLines = [...bannerArt.querySelectorAll(".headline-mask-line")];
+        const scrollCopies = [...bannerArt.querySelectorAll(".scroll-copy")];
+
+        function updateScrollCopy() {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = maxScroll > 0
+                ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1)
+                : 0;
+            const textFontSize = parseFloat(getComputedStyle(scrollCopies[0]).fontSize);
+            const start = window.innerHeight * 1.1;
+            const end = window.innerHeight * -0.2;
+            const textY = start + (end - start) * progress + textFontSize / 2;
+            const centerX = bannerArt.getBoundingClientRect().width / 2;
+
+            scrollCopies.forEach((copy) => {
+                copy.setAttribute("x", centerX);
+                copy.setAttribute("y", textY);
+            });
+        }
+
+        function refreshLayout() {
+            const { width, height } = bannerArt.getBoundingClientRect();
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const fontSize = parseFloat(getComputedStyle(bannerArt).fontSize);
+            const lineCenters = [
+                centerY - fontSize * 0.45,
+                centerY + fontSize * 0.45,
+            ];
+
+            bannerArt.setAttribute("viewBox", `0 0 ${width} ${height}`);
+            headlineMask.setAttribute("x", "0");
+            headlineMask.setAttribute("y", "0");
+            headlineMask.setAttribute("width", width);
+            headlineMask.setAttribute("height", height);
+
+            headlineLines.forEach((line, index) => {
+                line.removeAttribute("textLength");
+                line.setAttribute("x", centerX);
+                line.setAttribute("y", lineCenters[index]);
+            });
+
+            maskLines.forEach((line, index) => {
+                line.removeAttribute("textLength");
+                line.setAttribute("x", centerX);
+                line.setAttribute("y", lineCenters[index]);
+            });
+
+            const lineWidths = headlineLines.map((line) => line.getComputedTextLength());
+            const targetWidth = Math.max(...lineWidths);
+            [...headlineLines, ...maskLines].forEach((line) => {
+                line.setAttribute("textLength", targetWidth);
+                line.setAttribute("lengthAdjust", "spacingAndGlyphs");
+            });
+
+            updateScrollCopy();
+        }
+
+        refreshLayout();
+        document.fonts.ready.then(refreshLayout);
+        window.addEventListener("resize", refreshLayout);
+
+        let scrollFrame = 0;
+        window.addEventListener("scroll", () => {
+            if (scrollFrame) {
+                return;
+            }
+
+            scrollFrame = requestAnimationFrame(() => {
+                scrollFrame = 0;
+                updateScrollCopy();
+            });
+        }, { passive: true });
+    </script>
 </body>
 </html>
