@@ -24,22 +24,28 @@
         body {
             margin: 0;
             background: rgb(183, 183, 183);
+            --annotation-font: "Violet Sans", sans-serif;
+            --headline-size: min(36vw, 42vh, 540px);
         }
 
         .flight-map {
             position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
             pointer-events: none;
             z-index: 0;
         }
 
         .map-annotations {
             position: fixed;
-            inset: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
             pointer-events: none;
-            z-index: 2;
+            z-index: 0;
         }
 
         .map-annotation {
@@ -72,7 +78,7 @@
             border-left: 2px solid #fc0fc0;
             background: rgba(183, 183, 183, 0.92);
             color: #000;
-            font-family: "Violet Sans", sans-serif;
+            font-family: var(--annotation-font);
             font-size: clamp(10px, 1.05vw, 16px);
             line-height: 1;
             text-transform: uppercase;
@@ -121,7 +127,7 @@
             width: 100%;
             height: 100%;
             font-family: "Betatron", sans-serif;
-            font-size: clamp(120px, 22vw, 360px);
+            font-size: var(--headline-size);
         }
 
         .headline-line {
@@ -133,11 +139,87 @@
         }
 
         .scroll-track {
-            height: 200vh;
+            height: 150vh;
+        }
+
+        .link-section {
+            position: relative;
+            z-index: 3;
+            min-height: 100vh;
+            padding: clamp(24px, 6vh, 64px) clamp(20px, 7vw, 100px);
+            box-sizing: border-box;
+            background: rgb(183, 183, 183);
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: clamp(16px, 2.4vw, 32px);
+        }
+
+        .link-card {
+            display: flex;
+            min-height: 200px;
+            flex-direction: column;
+            gap: 12px;
+            padding: clamp(20px, 3vw, 40px);
+            box-sizing: border-box;
+            background: #d3d3d3;
+            color: #6f2da8;
+            font-family: var(--annotation-font);
+        }
+
+        .link-card h2,
+        .link-card p {
+            margin: 0;
+        }
+
+        .link-card h2 {
+            font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+            font-weight: 400;
+        }
+
+        .link-card p {
+            font-size: clamp(0.8rem, 1vw, 1rem);
+            line-height: 1.4;
+        }
+
+        .link-card-links {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .link-card-link {
+            color: inherit;
+            font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+            text-decoration: underline;
+            text-underline-offset: 0.15em;
+        }
+
+        .soundcloud-player {
+            display: block;
+            width: 100%;
+            height: 20px;
+            border: 0;
+        }
+
+        .soundcloud-attribution {
+            overflow: hidden;
+            color: #6f2da8;
+            font: 10px Arial, sans-serif;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .soundcloud-attribution a {
+            color: inherit;
+            text-decoration: none;
         }
 
         .scroll-copy {
-            font-family: "Violet Sans", sans-serif;
+            font-family: var(--annotation-font);
             font-size: clamp(1.25rem, 6vw, 6rem);
             fill: #6f2da8;
         }
@@ -182,27 +264,98 @@
         <svg class="banner-art" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="C.M.O.S.">
             <defs>
                 <mask id="headline-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1" height="1">
-                    <text class="headline-mask-line" text-anchor="middle" dominant-baseline="central">C.M.</text>
-                    <text class="headline-mask-line" text-anchor="middle" dominant-baseline="central">O.S.</text>
+                    <text class="headline-mask-line" text-anchor="middle" dominant-baseline="central">C.M.O.S.</text>
                 </mask>
             </defs>
-            <text id="headline-line-1" class="headline-line" text-anchor="middle" dominant-baseline="central">C.M.</text>
-            <text id="headline-line-2" class="headline-line" text-anchor="middle" dominant-baseline="central">O.S.</text>
-            <text class="scroll-copy" text-anchor="middle" dominant-baseline="central">YOUR STORY STARTS HERE</text>
-            <text class="scroll-copy scroll-copy-white" text-anchor="middle" dominant-baseline="central">YOUR STORY STARTS HERE</text>
+            <text id="headline-line" class="headline-line" text-anchor="middle" dominant-baseline="hanging">C.M.O.S.</text>
+            <text class="scroll-copy scroll-copy-line" text-anchor="middle" dominant-baseline="central">Connecting the dots.</text>
+            <text class="scroll-copy scroll-copy-line" text-anchor="middle" dominant-baseline="central">From 069 to 313 to</text>
+            <text class="scroll-copy scroll-copy-line" text-anchor="middle" dominant-baseline="central">071 to 030. Seen</text>
+            <text class="scroll-copy scroll-copy-line" text-anchor="middle" dominant-baseline="central">and heard since the</text>
+            <text class="scroll-copy scroll-copy-line" text-anchor="middle" dominant-baseline="central">beginnings. Ready to</text>
+            <text class="scroll-copy scroll-copy-line" text-anchor="middle" dominant-baseline="central">take it one step further</text>
+            <text class="scroll-copy scroll-copy-white scroll-copy-line" text-anchor="middle" dominant-baseline="central">Connecting the dots.</text>
+            <text class="scroll-copy scroll-copy-white scroll-copy-line" text-anchor="middle" dominant-baseline="central">From 069 to 313 to</text>
+            <text class="scroll-copy scroll-copy-white scroll-copy-line" text-anchor="middle" dominant-baseline="central">071 to 030. Seen</text>
+            <text class="scroll-copy scroll-copy-white scroll-copy-line" text-anchor="middle" dominant-baseline="central">and heard since the</text>
+            <text class="scroll-copy scroll-copy-white scroll-copy-line" text-anchor="middle" dominant-baseline="central">beginnings. Ready to</text>
+            <text class="scroll-copy scroll-copy-white scroll-copy-line" text-anchor="middle" dominant-baseline="central">take it one step further</text>
         </svg>
     </header>
     <a class="map-credit" href="https://openflights.org/data.php">Flight data: OpenFlights (June 2014)</a>
     <div class="scroll-track" aria-hidden="true"></div>
+    <section class="link-section" aria-label="Placeholder links">
+        <div class="link-grid">
+            <article class="link-card">
+                <h2>Step Into My House</h2>
+                <p>Love Revolution invites you into a house of freedom, love, diversity, and sensuality, where you can be whoever you want to be—as Aaron Carl put it.</p>
+                <iframe
+                    class="soundcloud-player"
+                    title="SoundCloud player for Love Revolution by THE SADDEST BOY ALIVE"
+                    scrolling="no"
+                    allow="autoplay; encrypted-media"
+                    loading="lazy"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2416196214&amp;color=%23ff5500&amp;inverse=false&amp;auto_play=false&amp;show_user=true"></iframe>
+                <div class="soundcloud-attribution">
+                    <a href="https://soundcloud.com/c_m_o_s_m_u_s_i_c" title="THE SADDEST BOY ALIVE" target="_blank" rel="noopener noreferrer">THE SADDEST BOY ALIVE</a>
+                    ·
+                    <a href="https://soundcloud.com/c_m_o_s_m_u_s_i_c/love-revolution" title="LOVE REVOLUTION" target="_blank" rel="noopener noreferrer">LOVE REVOLUTION</a>
+                </div>
+            </article>
+            <article class="link-card">
+                <h2>Woman</h2>
+                <p>If you believe in God and trust evolutionary science, then she is a Black woman. This is my interpretation of how every techno floor should operate: as a tribute to our creators.</p>
+                <iframe
+                    class="soundcloud-player"
+                    title="SoundCloud player for Woman by THE SADDEST BOY ALIVE"
+                    scrolling="no"
+                    allow="autoplay; encrypted-media"
+                    loading="lazy"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2403695376&amp;color=%23ff5500&amp;inverse=false&amp;auto_play=false&amp;show_user=true"></iframe>
+                <div class="soundcloud-attribution">
+                    <a href="https://soundcloud.com/c_m_o_s_m_u_s_i_c" title="THE SADDEST BOY ALIVE" target="_blank" rel="noopener noreferrer">THE SADDEST BOY ALIVE</a>
+                    ·
+                    <a href="https://soundcloud.com/c_m_o_s_m_u_s_i_c/woman" title="WOMAN" target="_blank" rel="noopener noreferrer">WOMAN</a>
+                </div>
+            </article>
+            <article class="link-card">
+                <h2>So You Think This Is New?</h2>
+                <p>There are no rules. There never have been. Don’t allow yourself to be categorized.</p>
+                <iframe
+                    class="soundcloud-player"
+                    title="SoundCloud player for So You Think This Is New? by THE SADDEST BOY ALIVE"
+                    scrolling="no"
+                    allow="autoplay; encrypted-media"
+                    loading="lazy"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2442170628&amp;color=%23ff5500&amp;inverse=false&amp;auto_play=false&amp;show_user=true"></iframe>
+                <div class="soundcloud-attribution">
+                    <a href="https://soundcloud.com/c_m_o_s_m_u_s_i_c" title="THE SADDEST BOY ALIVE" target="_blank" rel="noopener noreferrer">THE SADDEST BOY ALIVE</a>
+                    ·
+                    <a href="https://soundcloud.com/c_m_o_s_m_u_s_i_c/so-you-think-this-is-new" title="SO YOU THINK THIS IS NEW?" target="_blank" rel="noopener noreferrer">SO YOU THINK THIS IS NEW?</a>
+                </div>
+            </article>
+            <article class="link-card">
+                <h2>Contact &amp; Social Media</h2>
+                <p>Get in touch or find us online.</p>
+                <div class="link-card-links">
+                    <a class="link-card-link" href="mailto:contact@tobiaslocker.de">mail</a>
+                    <a class="link-card-link" href="https://www.instagram.com/c.m.o.s.m.u.s.i.c/" target="_blank" rel="noopener noreferrer">c.m.o.s.m.u.s.i.c</a>
+                </div>
+            </article>
+        </div>
+    </section>
     <script>
         const bannerArt = document.querySelector(".banner-art");
+        const flightMap = document.querySelector(".flight-map");
+        const mapAnnotations = document.querySelector(".map-annotations");
+        const scrollTrack = document.querySelector(".scroll-track");
         const headlineMask = document.querySelector("#headline-mask");
         const headlineLines = [...bannerArt.querySelectorAll(".headline-line")];
         const maskLines = [...bannerArt.querySelectorAll(".headline-mask-line")];
         const scrollCopies = [...bannerArt.querySelectorAll(".scroll-copy")];
 
         function updateScrollCopy() {
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const maxScroll = scrollTrack.offsetTop + scrollTrack.offsetHeight - window.innerHeight;
             const progress = maxScroll > 0
                 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1)
                 : 0;
@@ -212,21 +365,27 @@
             const textY = start + (end - start) * progress + textFontSize / 2;
             const centerX = bannerArt.getBoundingClientRect().width / 2;
 
-            scrollCopies.forEach((copy) => {
+            scrollCopies.forEach((copy, copyIndex) => {
+                const lineIndex = copyIndex % 6;
                 copy.setAttribute("x", centerX);
-                copy.setAttribute("y", textY);
+                const lineHeight = textFontSize * 1.35;
+                const firstLineY = textY - lineHeight * 2.5;
+                const targetWidth = bannerArt.getBoundingClientRect().width * 0.66;
+
+                copy.setAttribute("y", firstLineY + lineHeight * lineIndex);
+                copy.setAttribute("text-anchor", "middle");
+                copy.setAttribute("dominant-baseline", "central");
+                copy.removeAttribute("letter-spacing");
+                copy.removeAttribute("word-spacing");
+                copy.setAttribute("textLength", targetWidth);
+                copy.setAttribute("lengthAdjust", "spacing");
             });
         }
 
         function refreshLayout() {
             const { width, height } = bannerArt.getBoundingClientRect();
             const centerX = width / 2;
-            const centerY = height / 2;
-            const fontSize = parseFloat(getComputedStyle(bannerArt).fontSize);
-            const lineCenters = [
-                centerY - fontSize * 0.45,
-                centerY + fontSize * 0.45,
-            ];
+            const headlineY = height * 0.005;
 
             bannerArt.setAttribute("viewBox", `0 0 ${width} ${height}`);
             headlineMask.setAttribute("x", "0");
@@ -234,28 +393,52 @@
             headlineMask.setAttribute("width", width);
             headlineMask.setAttribute("height", height);
 
-            headlineLines.forEach((line, index) => {
+            headlineLines.forEach((line) => {
                 line.removeAttribute("textLength");
                 line.setAttribute("x", centerX);
-                line.setAttribute("y", lineCenters[index]);
+                line.setAttribute("y", headlineY);
             });
 
-            maskLines.forEach((line, index) => {
+            maskLines.forEach((line) => {
                 line.removeAttribute("textLength");
                 line.setAttribute("x", centerX);
-                line.setAttribute("y", lineCenters[index]);
+                line.setAttribute("y", headlineY);
+                line.setAttribute("dominant-baseline", "hanging");
             });
+            headlineLines.forEach((line) => line.setAttribute("y", headlineY));
 
             const lineWidths = headlineLines.map((line) => line.getComputedTextLength());
-            const targetWidth = Math.max(...lineWidths);
+            const targetWidth = Math.min(Math.max(...lineWidths), width * 0.9);
             [...headlineLines, ...maskLines].forEach((line) => {
                 line.setAttribute("textLength", targetWidth);
                 line.setAttribute("lengthAdjust", "spacingAndGlyphs");
             });
 
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const headlineBottom = headlineLines[0].getBoundingClientRect().bottom;
+            const mapGap = Math.min(24, viewportHeight * 0.02);
+            const mapTop = headlineBottom + mapGap;
+            const availableHeight = Math.max(0, viewportHeight - mapTop);
+            const aspectRatio = flightMap.naturalWidth && flightMap.naturalHeight
+                ? flightMap.naturalWidth / flightMap.naturalHeight
+                : 2;
+            const mapWidth = Math.min(viewportWidth, availableHeight * aspectRatio) * 1.35;
+            const mapHeight = mapWidth / aspectRatio;
+            const mapLeft = (viewportWidth - mapWidth) / 2;
+            const mapY = mapTop;
+
+            [flightMap, mapAnnotations].forEach((element) => {
+                element.style.left = `${mapLeft}px`;
+                element.style.top = `${mapY}px`;
+                element.style.width = `${mapWidth}px`;
+                element.style.height = `${mapHeight}px`;
+            });
+
             updateScrollCopy();
         }
 
+        flightMap.addEventListener("load", refreshLayout);
         refreshLayout();
         document.fonts.ready.then(refreshLayout);
         window.addEventListener("resize", refreshLayout);
